@@ -4,7 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 
 const EditProfile = () => {
   const { userId } = useParams();
-  const navigate = useNavigate(); // Create navigate instance
+  const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [fullName, setFullName] = useState('');
   const [website, setWebsite] = useState('');
@@ -20,14 +20,14 @@ const EditProfile = () => {
     const fetchProfile = async () => {
       try {
         const userProfile = await api(`http://localhost:8000/api/profile/${userId}`);
-        setUsername(userProfile.username);
-        setFullName(userProfile.fullName);
-        setWebsite(userProfile.website);
-        setTwitter(userProfile.twitter);
-        setGithub(userProfile.github);
-        setLinkedin(userProfile.linkedin);
-        setAvatar(userProfile.avatar);
-        setCoverImage(userProfile.coverImage);
+        setUsername(userProfile.username || ''); // Ensure not null
+        setFullName(userProfile.fullName || '');
+        setWebsite(userProfile.website || '');
+        setTwitter(userProfile.twitter || '');
+        setGithub(userProfile.github || '');
+        setLinkedin(userProfile.linkedin || '');
+        setAvatar(userProfile.avatar || '');
+        setCoverImage(userProfile.coverImage || '');
       } catch (error) {
         console.error('Failed to fetch profile:', error);
       }
@@ -40,12 +40,11 @@ const EditProfile = () => {
     setFile(e.target.files[0]);
   };
 
-  // Convert file to base64 string
   const convertToBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onloadend = () => {
-        resolve(reader.result); // base64 string
+        resolve(reader.result);
       };
       reader.onerror = reject;
       reader.readAsDataURL(file);
@@ -55,65 +54,55 @@ const EditProfile = () => {
   const handleSave = async () => {
     try {
       const profileData = {
-        username,
-        fullName,
-        website,
-        twitter,
-        github,
-        linkedin,
-        avatar,
-        coverImage
+        username: username || '',
+        fullName: fullName || '',
+        website: website || '',
+        twitter: twitter || '',
+        github: github || '',
+        linkedin: linkedin || '',
+        avatar: avatar || '',
+        coverImage: coverImage || '',
       };
 
-      // Upload avatar file if present
       if (avatarFile) {
-        const base64Image = await convertToBase64(avatarFile); // Convert to base64
-        const data  = await api('http://localhost:8000/api/upload', {
+        const base64Image = await convertToBase64(avatarFile);
+        const data = await api('http://localhost:8000/api/upload', {
           method: 'POST',
-         
-          body: JSON.stringify({ base64Image }) // Send base64 image to backend
+          body: JSON.stringify({ base64Image }),
         });
-        
-        profileData.avatar = data.imageUrl; // Update avatar with image URL
-        
+
+        profileData.avatar = data.imageUrl || '';
       }
 
-      // Upload cover image file if present
       if (coverImageFile) {
-        const base64Image = await convertToBase64(coverImageFile); // Convert to base64
-        const data  = await api('http://localhost:8000/api/upload', {
+        const base64Image = await convertToBase64(coverImageFile);
+        const data = await api('http://localhost:8000/api/upload', {
           method: 'POST',
-         
-          body: JSON.stringify({ base64Image }) // Send base64 image to backend
+          body: JSON.stringify({ base64Image }),
         });
-        profileData.coverImage = data.imageUrl;
+        profileData.coverImage = data.imageUrl || '';
       }
 
-      // Save profile changes
-      const updatedUser = await api(`http://localhost:8000/api/profile/${userId}`, {
+      await api(`http://localhost:8000/api/profile/${userId}`, {
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(profileData)
+        body: JSON.stringify(profileData),
       });
 
-      // Redirect to the profile page after successful update
       navigate(`/profile/${userId}`);
     } catch (error) {
       console.error('Error updating profile:', error);
     }
   };
 
-
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-900 via-black to-sky-900 text-sky-400 font-mono p-4">
       <div className="w-full max-w-4xl bg-gray-800 p-8 rounded-lg shadow-2xl border border-gray-700 mx-auto mt-8 mb-8 shadow-blue-500/50">
         <h2 className="text-3xl font-bold mb-8 text-center text-sky-400 animate-pulse tracking-widest">Edit Profile</h2>
         <div className="flex flex-wrap md:flex-nowrap gap-8">
-          {/* Left Section: Cover Image, Avatar, Username, and Full Name */}
           <div className="w-full md:w-1/2 flex flex-col items-center mb-6 md:mb-0 space-y-4">
-            {/* Cover Image */}
             <div className="w-full mb-4">
               <label className="block text-sky-400 mb-2">Cover Image</label>
               <input
@@ -130,7 +119,6 @@ const EditProfile = () => {
               )}
             </div>
 
-            {/* Avatar Section */}
             <div className="w-full flex items-center justify-between space-x-4">
               {avatar && (
                 <img
@@ -149,7 +137,6 @@ const EditProfile = () => {
               </div>
             </div>
 
-            {/* Username */}
             <div className="mb-4 w-full">
               <label className="block text-sky-400 mb-2">Username</label>
               <input
@@ -161,7 +148,6 @@ const EditProfile = () => {
               />
             </div>
 
-            {/* Full Name */}
             <div className="mb-4 w-full">
               <label className="block text-sky-400 mb-2">Full Name</label>
               <input
@@ -174,9 +160,7 @@ const EditProfile = () => {
             </div>
           </div>
 
-          {/* Right Section: Profile Details */}
           <div className="w-full md:w-1/2 flex flex-col space-y-4">
-            {/* Website */}
             <div className="mb-4">
               <label className="block text-sky-400 mb-2">Website</label>
               <input
@@ -188,7 +172,6 @@ const EditProfile = () => {
               />
             </div>
 
-            {/* Twitter */}
             <div className="mb-4">
               <label className="block text-sky-400 mb-2">Twitter</label>
               <input
@@ -200,7 +183,6 @@ const EditProfile = () => {
               />
             </div>
 
-            {/* GitHub */}
             <div className="mb-4">
               <label className="block text-sky-400 mb-2">GitHub</label>
               <input
@@ -212,7 +194,6 @@ const EditProfile = () => {
               />
             </div>
 
-            {/* LinkedIn */}
             <div className="mb-4">
               <label className="block text-sky-400 mb-2">LinkedIn</label>
               <input
@@ -226,7 +207,6 @@ const EditProfile = () => {
           </div>
         </div>
 
-        {/* Save Button */}
         <div className="mt-8 text-center">
           <button
             onClick={handleSave}

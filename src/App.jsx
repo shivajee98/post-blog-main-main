@@ -13,11 +13,12 @@ import Login from './components/Login.jsx';
 import LogoutButton from './components/Logout.jsx';
 
 import './index.css';
+import Header from './components/Header.jsx';
 
 const App = () => {
   return (
     <Router>
-      <Background />
+      <Header />
       <AuthProvider>
         <div className="relative z-0">
           <Routes>
