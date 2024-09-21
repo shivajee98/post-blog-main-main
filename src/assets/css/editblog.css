@@ -1,0 +1,19 @@
+/* Custom styles for Quill toolbar */
+.ql-toolbar {
+    background-color: white; /* Dark background for the toolbar */
+  }
+  
+  .ql-toolbar .ql-picker-label,
+  .ql-toolbar .ql-picker-item,
+  .ql-toolbar .ql-stroke {
+    color: black; /* White text color */
+  }
+  
+  .ql-toolbar .ql-stroke {
+    border-color: white; /* White border color for icons */
+  }
+  
+  .ql-toolbar .ql-active {
+    background-color: #e4dcdc; /* Darker background for active toolbar items */
+  }
+  

@@ -1,0 +1,20 @@
+/* Custom lighting effect */
+.shadow-light {
+    transition: box-shadow 0.3s ease-in-out;
+  }
+  
+  .shadow-light:hover {
+    box-shadow: 0 10px 30px rgba(255, 255, 255, 0.5); /* Light glow effect */
+  }
+  
+  /* Optionally, add a more pronounced light effect on hover */
+  .shadow-light-hover {
+    transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
+  }
+  
+  .shadow-light-hover:hover {
+    box-shadow: 0 20px 40px rgba(255, 255, 255, 0.6); /* Stronger glow effect */
+    transform: translateY(-5px); /* Slight lift effect */
+  }
+  
+  
