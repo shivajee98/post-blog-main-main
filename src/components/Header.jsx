@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { ROUTES } from '../../constants';
+import { useUser } from '../context/UserContext';
 
 const Header = () => {
+  const {userId} = useUser();
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
 
@@ -14,7 +17,7 @@ const Header = () => {
         throw new Error('Network response was not ok');
       }
       const data = await response.json();
-      // Handle the response data (e.g., store it in state or redirect)
+      // Handle the response data (e.g., store it in state or http://localhost:5173/redirect)
       console.log(data); // Replace this with actual handling logic
       // For example, navigate to a search results page
       navigate('/search-results', { state: { results: data } });
@@ -24,8 +27,10 @@ const Header = () => {
   };
 
   const handlePost = () => {
-    // Redirect or perform action for posting
-    navigate('/create-post');
+    navigate(ROUTES.HOME);
+  };
+  const handleProfile = () => {
+    navigate(ROUTES.PROFILE(userId));
   };
 
   return (
@@ -48,6 +53,12 @@ const Header = () => {
         className="ml-4 p-2 bg-sky-400 rounded-md hover:bg-sky-500"
       >
         Post
+      </button>
+      <button
+        onClick={handleProfile}
+        className="ml-4 p-2 bg-sky-400 rounded-md hover:bg-sky-500"
+      >
+        Profile
       </button>
     </header>
   );
