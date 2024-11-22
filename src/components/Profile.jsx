@@ -14,7 +14,7 @@ const Profile = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isVisible, setIsVisible] = useState(false);
-  const profileRef = useRef(null);
+  const profileRef = useRef(null); 
 
   useEffect(() => {
     const fetchUserData = async () => {

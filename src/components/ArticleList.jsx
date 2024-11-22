@@ -5,7 +5,6 @@ const ArticleList = ({ articles }) => {
   const defaultImage =
     "https://img.freepik.com/free-vector/blog-articles-abstract-concept-illustration_335657-4934.jpg?w=826&t=st=1725181824~exp=1725182424~hmac=31d32441c825ea96bc3d2d3620aa7fd7ba02c0a76c76f1a6c2e0aa4064c64be9";
 
-  // Function to extract the first image URL from HTML content
   const extractImage = (html) => {
     const regex = /<img[^>]+src="([^">]+)"/;
     const match = html.match(regex);
@@ -37,9 +36,15 @@ const ArticleList = ({ articles }) => {
               />
               <Link
                 to={`/blogs/${article._id}`}
-                className="text-sky-400 font-semibold hover:underline"
+                className="text-sky-400 font-semibold hover:underline mr-4"
               >
                 Read more
+              </Link>
+              <Link
+                to={`/edit-blog/${article._id}`} // Corrected link to the EditArticle component
+                className="text-yellow-500 font-semibold hover:underline"
+              >
+                Edit
               </Link>
             </div>
           </div>

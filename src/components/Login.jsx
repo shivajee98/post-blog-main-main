@@ -5,7 +5,6 @@ import Cookies from 'js-cookie'; // Import js-cookie
 
 const Login = () => {
   const { login } = useAuth();
-  console.log('All Cookies:', Cookies.get());
 
   useEffect(() => {
     // Simulate login after OAuth redirection
@@ -15,34 +14,12 @@ const Login = () => {
     }
   }, [login]);
 
-  useEffect(() => {
-    // Disable Picture-in-Picture explicitly using JavaScript
-    const videoElement = document.querySelector('video');
-    if (videoElement) {
-      videoElement.addEventListener('enterpictureinpicture', (event) => {
-        event.preventDefault();
-        videoElement.disablePictureInPicture = true;
-      });
-    }
-  }, []);
-
   const handleLogin = () => {
     window.location.href = 'http://localhost:8000/auth/google';
   };
 
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black">
-      {/* Responsive video background */}
-      <video
-        className="absolute top-0 left-0 w-full h-full object-cover"
-        src="/src/assets/images/background.mp4" 
-        autoPlay
-        muted
-        loop
-        playsInline
-        disablePictureInPicture
-        controls={false}
-      />
       {/* Login box */}
       <div className="relative bg-gray-900 shadow-lg rounded-lg p-6 sm:p-8 md:p-10 lg:p-12 max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl w-full z-10 shadow-blue-500/50 animate-slide-up">
         <style>

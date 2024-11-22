@@ -83,7 +83,7 @@ const EditProfile = () => {
         profileData.coverImage = data.imageUrl || '';
       }
 
-      await api(`http://localhost:8000/api/profile/${userId}`, {
+      await api(`http://localhost:8000/api/user/profile/update`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

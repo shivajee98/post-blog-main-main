@@ -6,6 +6,7 @@ export const ROUTES = {
     LOGIN: '/login',
     LOGOUT: '/logout',
     PROFILE: (userId) => `/profile/${userId}`,
+    SEEPROFILE: (userId) => `/seeprofile/${userId}`,
     BLOG_LIST: '/blog-list',
     BLOG_DETAIL: (id) => `/blogs/${id}`,
     EDIT_PROFILE: (userId) => `/edit-profile/${userId}`,

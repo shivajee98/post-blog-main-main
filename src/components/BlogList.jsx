@@ -29,40 +29,37 @@ const BlogList = () => {
   };
 
   return (
-    <div className="flex flex-wrap justify-center gap-8 p-6 bg-gradient-to-r from-black via-gray-900 to-black perspective">
+    <div className="flex flex-col space-y-6 p-6 bg-gradient-to-r from-black via-gray-900 to-black">
       {blogs.map((blog) => (
-        <div key={blog._id} className="w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 p-4">
-          <div className="relative bg-gradient-to-r from-black via-gray-800 to-black rounded-lg overflow-hidden h-[400px] flex flex-col transition-transform duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-sky-400/50 border border-transparent hover:border-sky-400">
-            {/* Blog Image */}
-            <div className="relative h-48 overflow-hidden">
-              <img
-                src={extractImage(blog.paragraph)}
-                alt={blog.title}
-                className="object-cover w-full h-full opacity-90"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black opacity-60" />
-            </div>
-
-            {/* Blog Content */}
-            <div className="p-6 flex-1 bg-gradient-to-r from-black via-gray-800 to-black">
-              <h2 className="text-2xl font-bold mb-2 text-white truncate">
-                {blog.title}
-              </h2>
-              <div
-                className="text-base text-gray-300 overflow-hidden"
-                dangerouslySetInnerHTML={{ __html: blog.paragraph.slice(0, 100) + '...' }} // Display truncated content
-              />
-            </div>
-
-            {/* Read More Button */}
-            <div className="bg-gradient-to-r from-black via-sky-500 to-black text-center p-4">
-              <Link
-                to={`/blogs/${blog._id}`}
-                className="text-white font-bold hover:text-sky-300 transition-colors"
-              >
-                Read more
+        <div key={blog._id} className="border rounded-lg bg-black bg-opacity-70 p-4">
+          <div className="flex items-center mb-2">
+            {/* Author Profile Link */}
+            {blog.author &&  (
+              <Link to={`/profile/${blog.author._id}`} className="flex items-center mr-4">
+                <img
+                  className="rounded-full w-8 h-8 mr-2 object-cover"
+                  src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec077a6177e112d?s=400&d=mm&r=g"
+                  alt="Author Avatar"
+                />
+                <span className="text-white text-sm font-semibold">{blog.author.fullName}</span>
               </Link>
-            </div>
+            )}
+            {/* Blog Title */}
+            <span className="text-lg font-semibold text-white">{blog.title}</span>
+          </div>
+          {/* Blog Content */}
+          <div
+            className="text-base text-gray-300 overflow-hidden w-auto h-auto"
+            dangerouslySetInnerHTML={{ __html: blog.paragraph.slice(0, 150) + '...' }} // Display truncated content
+          />
+          {/* Read More Button */}
+          <div className="mt-4 flex justify-end">
+            <Link
+              to={`/blogs/${blog._id}`}
+              className="text-white font-bold hover:text-sky-300 transition-colors"
+            >
+              Read more
+            </Link>
           </div>
         </div>
       ))}

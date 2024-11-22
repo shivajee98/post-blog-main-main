@@ -1,8 +1,6 @@
 // src/api.js
-import Cookies from 'js-cookie';
 
 const api = async (url, options = {}) => {
-  const accessToken = Cookies.get('accessToken');
 
   const defaultOptions = {
     credentials: 'include', // Automatically include cookies
@@ -12,9 +10,6 @@ const api = async (url, options = {}) => {
     },
   };
 
-  if (accessToken) {
-    defaultOptions.headers['Authorization'] = `Bearer ${accessToken}`;
-  }
 
   const response = await fetch(url, { ...defaultOptions, ...options });
 

@@ -1,36 +1,64 @@
-import React, { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../constants';
-import { useUser } from '../context/UserContext';
+import Cookies from 'js-cookie';
 
 const Header = () => {
-  const {userId} = useUser();
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
+  const [userId, setUserId] = useState(null);
 
+  useEffect(() => {
+    // Extract the userId from cookies
+    const userIdFromCookie = Cookies.get('userId');
+    if (userIdFromCookie) {
+      setUserId(userIdFromCookie);
+    } else {
+      console.warn('User ID cookie not found');
+    }
+  }, []);
+  
   const handleSearch = async (e) => {
     e.preventDefault();
-    
+    const encodedSearchTerm = encodeURIComponent(searchTerm);
+    const url = `http://localhost:8000/api/search?query=${encodedSearchTerm}`; // Removed userId
+
     try {
-      const response = await fetch(`http://localhost:8000/api/search?query=${encodeURIComponent(searchTerm)}`);
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      const data = await response.json();
-      // Handle the response data (e.g., store it in state or http://localhost:5173/redirect)
-      console.log(data); // Replace this with actual handling logic
-      // For example, navigate to a search results page
-      navigate('/search-results', { state: { results: data } });
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('Network response was not ok');
+
+        const data = await response.json();
+        navigate('/search-results', { state: { results: { users: data.users, articles: data.articles } } });
     } catch (error) {
-      console.error('Error fetching search results:', error);
+        console.error('Error fetching search results:', error);
     }
-  };
+};
+
+const handleShorts = () => {
+  navigate('/shorts'); // Navigate to the Shorts page
+};
+
+const handleUploadVideo = () => {
+  navigate('/upload-video'); // Navigate to the upload video page
+};
+
+  
 
   const handlePost = () => {
     navigate(ROUTES.HOME);
   };
+
   const handleProfile = () => {
-    navigate(ROUTES.PROFILE(userId));
+    if (userId) {
+      navigate(ROUTES.PROFILE(userId));
+    } else {
+      console.error('User ID is undefined');
+      navigate(ROUTES.BLOG_LIST);
+    }
+  };
+
+  const handleExplore = () => {
+    navigate('/explore'); // Navigate to the Explore page
   };
 
   return (
@@ -45,20 +73,24 @@ const Header = () => {
           className="p-2 rounded-l-md bg-gray-700 text-white"
         />
         <button type="submit" className="p-2 bg-sky-400 rounded-r-md hover:bg-sky-500">
-          Search
+          Search 
         </button>
       </form>
-      <button
-        onClick={handlePost}
-        className="ml-4 p-2 bg-sky-400 rounded-md hover:bg-sky-500"
-      >
+      <button onClick={handlePost} className="ml-4 p-2 bg-sky-400 rounded-md hover:bg-sky-500">
         Post
       </button>
-      <button
-        onClick={handleProfile}
-        className="ml-4 p-2 bg-sky-400 rounded-md hover:bg-sky-500"
-      >
+      <button onClick={handleProfile} className="ml-4 p-2 bg-sky-400 rounded-md hover:bg-sky-500">
         Profile
+      </button>
+      <button onClick={handleShorts} className="ml-4 p-2 bg-sky-400 rounded-md hover:bg-sky-500">
+  Shorts
+</button>
+<button onClick={handleUploadVideo} className="ml-4 p-2 bg-green-500 text-white rounded-md hover:bg-green-600">
+  Upload Video
+</button>
+
+      <button onClick={handleExplore} className="ml-4 p-2 bg-sky-400 rounded-md hover:bg-sky-500">
+        Explore
       </button>
     </header>
   );
