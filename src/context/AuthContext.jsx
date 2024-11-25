@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
 
   const checkAuth = async () => {
     try {
-      const response = await fetch('http://localhost:8000/auth/status', {
+      const response = await fetch(`${backendUrl}/auth/status`, {
         method: 'GET',
         credentials: 'include', // Include cookies for authentication
       });

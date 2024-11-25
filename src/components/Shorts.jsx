@@ -7,7 +7,8 @@ const Shorts = () => {
         // Fetch videos from the backend
         const fetchVideos = async () => {
             try {
-                const response = await fetch('http://localhost:8000/api/videos');
+                const backendUrl = import.meta.env.VITE_BACKEND_URL
+                const response = await fetch(`${backendUrl}/api/videos`);
                 const data = await response.json();
                 setVideos(data.videos);
             } catch (error) {

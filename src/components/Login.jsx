@@ -5,6 +5,8 @@ import Cookies from 'js-cookie'; // Import js-cookie
 
 const Login = () => {
   const { login } = useAuth();
+  const backendUrl = import.meta.env.VITE_BACKEND_URL
+
 
   useEffect(() => {
     // Simulate login after OAuth redirection
@@ -15,7 +17,7 @@ const Login = () => {
   }, [login]);
 
   const handleLogin = () => {
-    window.location.href = 'http://localhost:8000/auth/google';
+    window.location.href = `${backendUrl}/auth/google`;
   };
 
   return (

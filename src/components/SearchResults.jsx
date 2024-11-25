@@ -8,6 +8,8 @@ const stripHtmlTags = (html) => {
     return doc.body.textContent || "";
 };
 
+const backendUrl = import.meta.env.VITE_BACKEND_URL
+
 const SearchResults = () => {
     const location = useLocation();
     const { results } = location.state || { results: { articles: [], users: [] } };
@@ -17,7 +19,7 @@ const SearchResults = () => {
 
     const fetchUserDetails = async (userId) => {
         try {
-            const data = await api(`http://localhost:8000/api/profile/${userId}`);
+            const data = await api(`${backendUrl}/api/profile/${userId}`);
             setUserDetails((prev) => ({ ...prev, [userId]: data }));
         } catch (error) {
             console.error("Failed to fetch user data:", error);

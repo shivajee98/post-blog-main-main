@@ -15,11 +15,13 @@ const EditProfile = () => {
   const [coverImage, setCoverImage] = useState('');
   const [avatarFile, setAvatarFile] = useState(null);
   const [coverImageFile, setCoverImageFile] = useState(null);
+  const backendUrl = import.meta.env.VITE_BACKEND_URL
+
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const userProfile = await api(`http://localhost:8000/api/profile/${userId}`);
+        const userProfile = await api(`${backendUrl}/api/profile/${userId}`);
         setUsername(userProfile.username || ''); // Ensure not null
         setFullName(userProfile.fullName || '');
         setWebsite(userProfile.website || '');
@@ -66,7 +68,7 @@ const EditProfile = () => {
 
       if (avatarFile) {
         const base64Image = await convertToBase64(avatarFile);
-        const data = await api('http://localhost:8000/api/upload', {
+        const data = await api('${backendUrl}/api/upload', {
           method: 'POST',
           body: JSON.stringify({ base64Image }),
         });
@@ -76,14 +78,14 @@ const EditProfile = () => {
 
       if (coverImageFile) {
         const base64Image = await convertToBase64(coverImageFile);
-        const data = await api('http://localhost:8000/api/upload', {
+        const data = await api('${backendUrl}/api/upload', {
           method: 'POST',
           body: JSON.stringify({ base64Image }),
         });
         profileData.coverImage = data.imageUrl || '';
       }
 
-      await api(`http://localhost:8000/api/user/profile/update`, {
+      await api(`${backendUrl}/api/user/profile/update`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

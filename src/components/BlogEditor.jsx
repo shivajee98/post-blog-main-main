@@ -13,6 +13,8 @@ const BlogEditor = () => {
   const [loading, setLoading] = useState(false);
   const [characterCount, setCharacterCount] = useState(0);
   const quillRef = useRef(null);
+  const backendUrl = import.meta.env.VITE_BACKEND_URL
+
 
   const handleContentChange = (value) => {
     setContent(value);
@@ -38,7 +40,7 @@ const BlogEditor = () => {
       const base64Images = extractBase64Images(content);
 
       const imageUrls = await Promise.all(base64Images.map(async (base64) => {
-        const data = await api('http://localhost:8000/api/upload', {
+        const data = await api(`${backendUrl}/api/upload`, {
           method: 'POST',
           body: JSON.stringify({ base64Image: base64 }),
         });
@@ -50,7 +52,7 @@ const BlogEditor = () => {
         finalContent = finalContent.replace(base64, imageUrls[index]);
       });
 
-      await api('http://localhost:8000/api/articles/post', {
+      await api(`${backendUrl}/api/articles/post`, {
         method: 'POST',
         body: JSON.stringify({
           title,

@@ -15,11 +15,13 @@ const BlogDetail = ({ authToken }) => {
   const [comments, setComments] = useState([]);
   const [liked, setLiked] = useState(false); // Track the like status
   const [likesCount, setLikesCount] = useState(0); // Track the number of likes
+  const backendUrl = import.meta.env.VITE_BACKEND_URL
+  const frontendUrl = import.meta.env.VITE_FRONTEND_URL
 
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/api/articles/${id}`, {
+        const response = await axios.get(`${backendUrl}/api/articles/${id}`, {
           headers: {
             Authorization: `Bearer ${authToken}`,
           },
@@ -47,7 +49,7 @@ const BlogDetail = ({ authToken }) => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `http://localhost:8000/api/articles/${id}/comments`,
+        `${backendUrl}/api/articles/${id}/comments`,
         { content: comment },
         {
           headers: {
@@ -67,7 +69,7 @@ const BlogDetail = ({ authToken }) => {
 
   const handleLike = async () => {
     try {
-      const response = await api(`http://localhost:8000/api/articles/${id}/like`, {
+      const response = await api(`${backendUrl}/api/articles/${id}/like`, {
         method: 'POST',
       });
   
@@ -86,7 +88,7 @@ const BlogDetail = ({ authToken }) => {
   
 
   const handleShare = (articleId) => {
-    const articleUrl = `http://localhost:5173/blogs/${articleId}`;
+    const articleUrl = `${frontendUrl}/blogs/${articleId}`;
 
     // Copy to clipboard
     navigator.clipboard.writeText(articleUrl).then(() => {

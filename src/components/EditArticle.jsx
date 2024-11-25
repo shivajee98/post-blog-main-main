@@ -3,6 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import api from '../api.js'; // Import the API wrapper
+const backendUrl = import.meta.env.VITE_BACKEND_URL
+
 
 const EditArticle = () => {
   const { id } = useParams();
@@ -16,7 +18,7 @@ const EditArticle = () => {
   useEffect(() => {
     const fetchArticle = async () => {
       try {
-        const data = await api(`http://localhost:8000/api/articles/${id}`, { method: 'GET' });
+        const data = await api(`${backendUrl}/api/articles/${id}`, { method: 'GET' });
         setArticle({ title: data.title, paragraph: data.paragraph });
       } catch (error) {
         setError('Error fetching article. Please try again.');
@@ -41,7 +43,7 @@ const EditArticle = () => {
     setLoading(true);
 
     try {
-      await api(`http://localhost:8000/api/edit/articles/${id}`, {
+      await api(`${backendUrl}/api/edit/articles/${id}`, {
         method: 'PUT',
         body: JSON.stringify({
           title: article.title,

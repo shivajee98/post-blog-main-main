@@ -7,6 +7,8 @@ const Header = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
   const [userId, setUserId] = useState(null);
+  const backendUrl = import.meta.env.VITE_BACKEND_URL
+
 
   useEffect(() => {
     // Extract the userId from cookies
@@ -21,7 +23,7 @@ const Header = () => {
   const handleSearch = async (e) => {
     e.preventDefault();
     const encodedSearchTerm = encodeURIComponent(searchTerm);
-    const url = `http://localhost:8000/api/search?query=${encodedSearchTerm}`; // Removed userId
+    const url = `${backendUrl}/api/search?query=${encodedSearchTerm}`; // Removed userId
 
     try {
         const response = await fetch(url);

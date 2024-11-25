@@ -6,11 +6,13 @@ const Explore = () => {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const backendUrl = import.meta.env.VITE_BACKEND_URL
+
 
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        const response = await api('http://localhost:8000/api/articles'); // Adjust this URL to your API endpoint
+        const response = await api(`${backendUrl}/api/articles`); // Adjust this URL to your API endpoint
         setArticles(response);
       } catch (err) {
         setError('Failed to fetch articles');

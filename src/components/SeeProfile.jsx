@@ -15,6 +15,7 @@ const Profile = () => {
     const [error, setError] = useState(null);
     const [isVisible, setIsVisible] = useState(false);
     const profileRef = useRef(null);
+    const backendUrl = import.meta.env.VITE_BACKEND_URL
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -25,7 +26,7 @@ const Profile = () => {
             }
 
             try {
-                const userData = await api(`http://localhost:8000/api/profile/${userId}`);
+                const userData = await api(`${backendUrl}/api/profile/${userId}`);
                 setUser(userData);
             } catch (err) {
                 setError('Failed to fetch user data');
@@ -41,7 +42,7 @@ const Profile = () => {
     useEffect(() => {
         const fetchArticles = async () => {
             try {
-                const response = await api(`http://localhost:8000/api/articles/author/${userId}`);
+                const response = await api(`${backendUrl}/api/articles/author/${userId}`);
                 setArticles(response);
             } catch (error) {
                 console.error('Error fetching articles:', error);

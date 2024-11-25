@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../api';
+const backendUrl = import.meta.env.VITE_BACKEND_URL
+
 
 const BlogList = () => {
   const [blogs, setBlogs] = useState([]);
@@ -11,7 +13,7 @@ const BlogList = () => {
     // Fetch blogs from the backend
     const fetchBlogs = async () => {
       try {
-        const data = await api('http://localhost:8000/api/articles');
+        const data = await api(`${backendUrl}/api/articles`);
         setBlogs(data);
       } catch (error) {
         console.error('Failed to fetch blogs:', error);

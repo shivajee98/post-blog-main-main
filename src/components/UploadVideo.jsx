@@ -18,8 +18,10 @@ const UploadVideo = () => {
             const base64Video = reader.result;
 
             try {
+                const backendUrl = import.meta.env.VITE_BACKEND_URL
+                
                 // Use the `api` utility to send the POST request
-                const data = await api('http://localhost:8000/api/upload/video', {
+                const data = await api(`${backendUrl}/api/upload/video`, {
                     method: 'POST',
                     body: JSON.stringify({ base64Video }),
                 });
