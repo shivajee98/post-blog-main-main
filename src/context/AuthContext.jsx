@@ -1,6 +1,9 @@
 // src/contexts/AuthContext.jsx
 import React, { createContext, useContext, useState } from 'react';
 
+
+const backendUrl = import.meta.env.VITE_BACKEND_URL
+
 const AuthContext = createContext();
 
 export const useAuth = () => useContext(AuthContext);
