@@ -6,6 +6,8 @@ import Cookies from 'js-cookie'; // Import js-cookie
 const Login = () => {
   const { login } = useAuth();
   const backendUrl = import.meta.env.VITE_BACKEND_URL
+  console.log(backendUrl);
+  
 
 
   useEffect(() => {
